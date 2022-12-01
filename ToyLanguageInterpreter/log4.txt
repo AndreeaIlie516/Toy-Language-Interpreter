@@ -1,0 +1,1 @@
+PrgState{symbolTable=, executionStack=Model.ADT.MyStack@9807454, output=, fileTable=, originalProgram=(string fileName;(fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))))))}
