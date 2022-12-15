@@ -2,7 +2,6 @@ package Model.Expression;
 
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
-import Model.ADT.IMyHeap;
 import Model.Value.IValue;
 
 public class ValueExp implements IExp {
@@ -13,7 +12,7 @@ public class ValueExp implements IExp {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> symbolTable, IMyHeap<IValue> heap) throws ExprException {
+    public IValue evaluate(IMyDictionary<String, IValue> symbolTable) throws ExprException {
         return value;
     }
 

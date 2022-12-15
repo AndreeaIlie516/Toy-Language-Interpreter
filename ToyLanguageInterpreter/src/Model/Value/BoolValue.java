@@ -45,7 +45,7 @@ public class BoolValue implements IValue {
             return false;
         }
 
-        //@Override
+        @Override
         public void setValue(IValue value) throws MyException {
             if (value instanceof Model.Value.BoolValue) {
                 this.value = ((Model.Value.BoolValue) value).getValue();

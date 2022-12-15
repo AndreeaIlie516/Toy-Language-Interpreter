@@ -42,13 +42,4 @@ public class MyStack<T> implements IMyStack<T> {
     public boolean isEmpty() {
         return this.myStack.isEmpty();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder string = new StringBuilder();
-        for (T elem: myStack) {
-            string.append(elem).append(" ");
-        }
-        return string.toString();
-    }
 }

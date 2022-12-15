@@ -3,31 +3,29 @@ package Model.Statement;
 import Exception.ExprException;
 import Exception.StmtException;
 import Model.ADT.IMyDictionary;
-import Model.ADT.IMyHeap;
 import Model.ADT.IMyStack;
-import Model.State.ProgramState;
+import Model.State.PrgState;
 import Model.Expression.IExp;
 import Model.Type.BoolType;
 import Model.Value.BoolValue;
 import Model.Value.IValue;
 
-public class IfStatement implements IStatement {
+public class IfStmt implements IStmt {
     private final IExp expression;
-    private final IStatement ifStmt;
-    private final IStatement elseStmt;
+    private final IStmt ifStmt;
+    private final IStmt elseStmt;
 
-    public IfStatement(IExp expression, IStatement ifStmt, IStatement elseStmt) {
+    public IfStmt(IExp expression, IStmt ifStmt, IStmt elseStmt) {
         this.expression = expression;
         this.ifStmt = ifStmt;
         this.elseStmt = elseStmt;
     }
 
     @Override
-    public ProgramState execute(ProgramState state) throws StmtException, ExprException {
-        IMyStack<IStatement> stack = state.getExecutionStack();
+    public PrgState execute(PrgState state) throws StmtException, ExprException {
+        IMyStack<IStmt> stack = state.getExecutionStack();
         IMyDictionary<String, IValue> table = state.getSymbolTable();
-        IMyHeap<IValue> heap = state.getHeap();
-        IValue condition = this.expression.evaluate(table, heap);
+        IValue condition = this.expression.evaluate(table);
         if(!condition.getType().equals(new BoolType())) {
             throw new StmtException("Condition is not a boolean");
         }
@@ -47,8 +45,8 @@ public class IfStatement implements IStatement {
     }
 
     @Override
-    public IStatement deepCopy() {
-        return new IfStatement(expression, ifStmt, elseStmt);
+    public IStmt deepCopy() {
+        return new IfStmt(expression, ifStmt, elseStmt);
     }
 
 }

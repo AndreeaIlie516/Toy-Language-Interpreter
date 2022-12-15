@@ -38,7 +38,7 @@ public class IntValue implements IValue {
         return value;
     }
 
-    //@Override
+    @Override
     public void setValue(IValue value) throws MyException {
         if (value instanceof IntValue) {
             this.value = ((IntValue) value).getValue();
