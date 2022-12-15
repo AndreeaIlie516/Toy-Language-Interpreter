@@ -1,1 +1,7 @@
-PrgState{symbolTable=, executionStack=Model.ADT.MyStack@1d81eb93, output=, fileTable=, originalProgram=(int x;(x = 17;print(x)))}
+Program state
+Execution Stack:  
+Symbol Table:  
+Heap:  
+Output Console:  
+File Table:  
+

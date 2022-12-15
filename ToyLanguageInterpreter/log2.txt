@@ -1,1 +1,0 @@
-PrgState{symbolTable=, executionStack=Model.ADT.MyStack@506e1b77, output=, fileTable=, originalProgram=(int x;(x = 3 + 5 * 7;print(x)))}

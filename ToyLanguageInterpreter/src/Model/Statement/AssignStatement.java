@@ -2,16 +2,17 @@ package Model.Statement;
 
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
-import Model.State.PrgState;
+import Model.ADT.IMyHeap;
+import Model.State.ProgramState;
 import Exception.StmtException;
 import Model.Expression.IExp;
 import Model.Value.IValue;
 
-public class AssignStmt implements IStmt {
+public class AssignStatement implements IStatement {
     private final String ID;
     private final IExp expression;
 
-    public AssignStmt(String ID, IExp expression) {
+    public AssignStatement(String ID, IExp expression) {
         this.ID = ID;
         this.expression = expression;
     }
@@ -30,9 +31,10 @@ public class AssignStmt implements IStmt {
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ExprException {
+    public ProgramState execute(ProgramState state) throws StmtException, ExprException {
         IMyDictionary<String, IValue> table = state.getSymbolTable();
-        IValue updatedValue = this.expression.evaluate(table);
+        IMyHeap<IValue> heap = state.getHeap();
+        IValue updatedValue = this.expression.evaluate(table, heap);
         IValue oldValue = table.lookup(this.ID);
         if((!(table.isDefined(this.ID))) || (!oldValue.getType().equals(updatedValue.getType()))) {
             throw new StmtException("Variable " + this.ID + " is not defined or has a different type than the expression");
@@ -42,8 +44,8 @@ public class AssignStmt implements IStmt {
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new AssignStmt(ID, expression.deepCopy());
+    public IStatement deepCopy() {
+        return new AssignStatement(ID, expression.deepCopy());
     }
 
 }

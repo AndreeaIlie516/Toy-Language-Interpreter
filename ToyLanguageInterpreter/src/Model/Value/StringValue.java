@@ -42,7 +42,7 @@ public class StringValue implements IValue {
         return Objects.equals(value, that.value);
     }
 
-    @Override
+    //@Override
     public void setValue(IValue value) {
         if (value instanceof StringValue) {
             this.value = ((StringValue) value).getValue();

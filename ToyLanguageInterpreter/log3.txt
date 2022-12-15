@@ -1,1 +1,0 @@
-PrgState{symbolTable=, executionStack=Model.ADT.MyStack@4fca772d, output=, fileTable=, originalProgram=(int a;(int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v)))))}

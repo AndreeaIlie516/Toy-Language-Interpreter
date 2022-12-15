@@ -1,7 +1,8 @@
 package Model.Statement;
 
 import Model.ADT.IMyDictionary;
-import Model.State.PrgState;
+import Model.ADT.IMyHeap;
+import Model.State.ProgramState;
 import Exception.ADTException;
 import Exception.ExprException;
 import Exception.StmtException;
@@ -15,29 +16,29 @@ import Model.Value.IValue;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ReadFileStmt implements IStmt{
+public class ReadFileStatement implements IStatement {
     private IExp expression;
     private String varName;
     private String fileName;
 
-    public ReadFileStmt(IExp expression, String varName) {
+    public ReadFileStatement(IExp expression, String varName) {
         this.expression = expression;
         this.varName = varName;
     }
-    public ReadFileStmt(IExp expression, String varName, String fileName) {
+    public ReadFileStatement(IExp expression, String varName, String fileName) {
         this.expression = expression;
         this.varName = varName;
         this.fileName = fileName;
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ExprException, ADTException {
+    public ProgramState execute(ProgramState state) throws StmtException, ExprException, ADTException {
         IMyDictionary<String, IValue> symTable = state.getSymbolTable();
         IMyDictionary<StringValue, BufferedReader> fileTable = state.getFileTable();
-
+        IMyHeap<IValue> heap = state.getHeap();
         if (symTable.isDefined(varName)) {
             if (symTable.lookup(varName).getType().equals(new IntType())) {
-                IValue value = expression.evaluate(symTable);
+                IValue value = expression.evaluate(symTable, heap);
                 if (value.getType().equals(new StringType())) {
                     StringValue stringVal = (StringValue) value;
                     if (fileTable.isDefined(stringVal)) {
@@ -81,7 +82,7 @@ public class ReadFileStmt implements IStmt{
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new ReadFileStmt(expression.deepCopy(), varName, fileName);
+    public IStatement deepCopy() {
+        return new ReadFileStatement(expression.deepCopy(), varName, fileName);
     }
 }

@@ -1,7 +1,8 @@
 package Model.Statement;
 
 import Model.ADT.IMyDictionary;
-import Model.State.PrgState;
+import Model.ADT.IMyHeap;
+import Model.State.ProgramState;
 import Exception.ADTException;
 import Exception.ExprException;
 import Exception.StmtException;
@@ -13,17 +14,18 @@ import Model.Value.IValue;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class CloseRFileStmt implements IStmt{
+public class CloseRFileStatement implements IStatement {
     private IExp expression;
 
-    public CloseRFileStmt(IExp expression){
+    public CloseRFileStatement(IExp expression){
         this.expression = expression;
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ExprException, ADTException {
+    public ProgramState execute(ProgramState state) throws StmtException, ExprException, ADTException {
         IMyDictionary<String, IValue> symTable = state.getSymbolTable();
-        IValue val = expression.evaluate(symTable);
+        IMyHeap<IValue> heap = state.getHeap();
+        IValue val = expression.evaluate(symTable, heap);
         if (val.getType().equals(new StringType())) {
             IMyDictionary<StringValue, BufferedReader> fileTable = state.getFileTable();
             StringValue stringVal = (StringValue) val;
@@ -46,8 +48,8 @@ public class CloseRFileStmt implements IStmt{
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new CloseRFileStmt(expression.deepCopy());
+    public IStatement deepCopy() {
+        return new CloseRFileStatement(expression.deepCopy());
     }
 
     @Override

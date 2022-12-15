@@ -2,6 +2,7 @@ package Model.Expression;
 
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
+import Model.ADT.IMyHeap;
 import Model.Value.IValue;
 
 public class VariableExp implements IExp {
@@ -12,7 +13,7 @@ public class VariableExp implements IExp {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> symbolTable) throws ExprException {
+    public IValue evaluate(IMyDictionary<String, IValue> symbolTable, IMyHeap<IValue> heap) throws ExprException {
         if (!symbolTable.isDefined(ID))
             throw new ExprException("The variable is not defined for VariableExpression!");
         return symbolTable.lookup(ID);

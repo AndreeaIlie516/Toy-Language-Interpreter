@@ -2,6 +2,7 @@ package Model.Expression;
 
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
+import Model.ADT.IMyHeap;
 import Model.Type.BoolType;
 import Model.Value.BoolValue;
 import Model.Value.IValue;
@@ -18,9 +19,9 @@ public class LogicExp implements IExp {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> symbolTable) throws ExprException {
-        IValue leftValue = leftExpression.evaluate(symbolTable);
-        IValue rightValue = rightExpression.evaluate(symbolTable);
+    public IValue evaluate(IMyDictionary<String, IValue> symbolTable, IMyHeap<IValue> heap) throws ExprException {
+        IValue leftValue = leftExpression.evaluate(symbolTable, heap);
+        IValue rightValue = rightExpression.evaluate(symbolTable, heap);
 
         if (leftValue.getType().equals(new BoolType()) && rightValue.getType().equals(new BoolType())) {
             BoolValue leftBoolValue = (BoolValue) leftValue;

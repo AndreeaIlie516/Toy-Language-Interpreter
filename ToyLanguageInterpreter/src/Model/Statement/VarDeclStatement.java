@@ -3,15 +3,15 @@ package Model.Statement;
 import Exception.ADTException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyStack;
-import Model.State.PrgState;
+import Model.State.ProgramState;
 import Exception.StmtException;
 import Model.Type.IType;
 import Model.Value.IValue;
 
-public class VarDeclStmt implements IStmt{
+public class VarDeclStatement implements IStatement {
     private final String ID;
     private final IType type;
-    public VarDeclStmt(String id, IType t){
+    public VarDeclStatement(String id, IType t){
         this.ID = id;
         this.type = t;
     }
@@ -25,8 +25,8 @@ public class VarDeclStmt implements IStmt{
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ADTException {
-        IMyStack<IStmt> stack = state.getExecutionStack();
+    public ProgramState execute(ProgramState state) throws StmtException, ADTException {
+        IMyStack<IStatement> stack = state.getExecutionStack();
         IMyDictionary<String, IValue> table = state.getSymbolTable();
         if(table.isDefined(this.ID)) {
             throw new StmtException("Variable " + this.ID + " is already defined");
@@ -43,7 +43,7 @@ public class VarDeclStmt implements IStmt{
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new VarDeclStmt(ID, type);
+    public IStatement deepCopy() {
+        return new VarDeclStatement(ID, type);
     }
 }
