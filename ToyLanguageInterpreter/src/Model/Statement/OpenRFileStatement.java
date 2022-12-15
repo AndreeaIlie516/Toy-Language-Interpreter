@@ -1,7 +1,8 @@
 package Model.Statement;
 
 import Model.ADT.IMyDictionary;
-import Model.State.PrgState;
+import Model.ADT.IMyHeap;
+import Model.State.ProgramState;
 import Exception.ADTException;
 import Exception.ExprException;
 import Exception.StmtException;
@@ -15,17 +16,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 
-public class OpenRFileStmt implements IStmt{
+public class OpenRFileStatement implements IStatement {
     private final IExp expression;
 
-    public OpenRFileStmt(IExp expression) {
+    public OpenRFileStatement(IExp expression) {
         this.expression = expression;
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ExprException, ADTException {
+    public ProgramState execute(ProgramState state) throws StmtException, ExprException, ADTException {
         IMyDictionary<String, IValue> symTable = state.getSymbolTable();
-        IValue value = expression.evaluate(symTable);
+        IMyHeap<IValue> heap = state.getHeap();
+        IValue value = expression.evaluate(symTable, heap);
         if (value.getType().equals(new StringType())) {
             IMyDictionary<StringValue, BufferedReader> fileTable = state.getFileTable();
             StringValue stringVal = (StringValue) value;
@@ -55,7 +57,7 @@ public class OpenRFileStmt implements IStmt{
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new OpenRFileStmt(expression.deepCopy());
+    public IStatement deepCopy() {
+        return new OpenRFileStatement(expression.deepCopy());
     }
 }

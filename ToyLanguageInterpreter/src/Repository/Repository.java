@@ -4,23 +4,21 @@ import Exception.ADTException;
 import Exception.MyException;
 import Model.ADT.IMyList;
 import Model.ADT.MyList;
-import Model.State.PrgState;
-import Model.Statement.IStmt;
+import Model.State.ProgramState;
+import Model.Statement.IStatement;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Repository implements IRepository {
-    private final IMyList<PrgState> states;
-    private IStmt originalProgram;
+    private final IMyList<ProgramState> states;
+    private IStatement originalProgram;
     private String fileName;
 
-    public Repository(PrgState prgState, String fileName) throws IOException, MyException {
-        this.originalProgram = prgState.getOriginalProgram();
+    public Repository(ProgramState programState, String fileName) throws IOException, MyException {
+        this.originalProgram = programState.getOriginalProgram();
         this.fileName = fileName;
         states = new MyList<>();
         File file = new File(fileName);
@@ -43,20 +41,20 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public IMyList<PrgState> getPrgList() {
+    public IMyList<ProgramState> getPrgList() {
         return this.states;
     }
 
     @Override
-    public void addState(PrgState state) {
+    public void addState(ProgramState state) {
         this.states.add(state);
     }
 
 
     @Override
-    public PrgState getCurrentProgram() throws MyException, ADTException{
+    public ProgramState getCurrentProgram() throws MyException, ADTException{
         try {
-            PrgState state = this.states.getFromPosition(0);
+            ProgramState state = this.states.getFromPosition(0);
             this.states.removeFromPosition(0);
             return state;
         }
@@ -66,16 +64,16 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public IStmt getOriginalProgram() {
+    public IStatement getOriginalProgram() {
         return this.originalProgram;
     }
 
     @Override
-    public void printPrgState(PrgState prgState) throws MyException, IOException {
+    public void printPrgState(ProgramState programState) throws MyException, IOException {
         File file = new File(fileName);
         file.createNewFile();
         try (FileWriter fileWriter = new FileWriter(file, true)) {
-            fileWriter.write(prgState + "\n");
+            fileWriter.write(programState + "\n");
             fileWriter.close();
         }
         catch (IOException e) {

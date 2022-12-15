@@ -2,6 +2,7 @@ package Model.Expression;
 
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
+import Model.ADT.IMyHeap;
 import Model.Type.IntType;
 import Model.Value.IntValue;
 import Model.Value.IValue;
@@ -24,9 +25,9 @@ public class ArithExp implements IExp {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> symbolTable) throws ExprException {
-        IValue value1 = expression1.evaluate(symbolTable);
-        IValue value2 = expression2.evaluate(symbolTable);
+    public IValue evaluate(IMyDictionary<String, IValue> symbolTable, IMyHeap<IValue> heap) throws ExprException {
+        IValue value1 = expression1.evaluate(symbolTable, heap);
+        IValue value2 = expression2.evaluate(symbolTable, heap);
 
         if (value1.getType().equals(new IntType()) && value2.getType().equals(new IntType())) {
             IntValue intValue1 = (IntValue) value1;

@@ -3,19 +3,18 @@ package Repository;
 import Exception.ADTException;
 import Exception.MyException;
 import Model.ADT.IMyList;
-import Model.State.PrgState;
-import Model.Statement.IStmt;
+import Model.State.ProgramState;
+import Model.Statement.IStatement;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface IRepository {
-    IMyList<PrgState> getPrgList();
-    void addState(PrgState state);
-    PrgState getCurrentProgram() throws MyException, ADTException;
+    IMyList<ProgramState> getPrgList();
+    void addState(ProgramState state);
+    ProgramState getCurrentProgram() throws MyException, ADTException;
 
-    IStmt getOriginalProgram();
+    IStatement getOriginalProgram();
 
-    void printPrgState(PrgState prgState) throws MyException, IOException;
+    void printPrgState(ProgramState programState) throws MyException, IOException;
 }
 

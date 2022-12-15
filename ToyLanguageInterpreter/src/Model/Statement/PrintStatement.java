@@ -1,17 +1,18 @@
 package Model.Statement;
 import Exception.ExprException;
 import Model.ADT.IMyDictionary;
+import Model.ADT.IMyHeap;
 import Model.ADT.IMyList;
 import Model.ADT.IMyStack;
-import Model.State.PrgState;
+import Model.State.ProgramState;
 import Exception.StmtException;
 import Model.Expression.IExp;
 import Model.Value.IValue;
 
-public class PrintStmt implements IStmt{
+public class PrintStatement implements IStatement {
     private final IExp expression;
 
-    public PrintStmt(IExp expression) {
+    public PrintStatement(IExp expression) {
         this.expression = expression;
     }
 
@@ -21,16 +22,17 @@ public class PrintStmt implements IStmt{
     }
 
     @Override
-    public IStmt deepCopy() {
-        return new PrintStmt(expression);
+    public IStatement deepCopy() {
+        return new PrintStatement(expression);
     }
 
     @Override
-    public PrgState execute(PrgState state) throws StmtException, ExprException {
+    public ProgramState execute(ProgramState state) throws StmtException, ExprException {
         IMyDictionary<String, IValue> table = state.getSymbolTable();
         IMyList<IValue> output = state.getOutput();
-        IMyStack<IStmt> stack = state.getExecutionStack();
-        IValue value = this.expression.evaluate(table);
+        IMyStack<IStatement> stack = state.getExecutionStack();
+        IMyHeap<IValue> heap = state.getHeap();
+        IValue value = this.expression.evaluate(table, heap);
         output.add(value);
         state.setExecutionStack(stack);
         state.setOutput(output);

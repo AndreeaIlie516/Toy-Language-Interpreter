@@ -6,7 +6,7 @@ import Model.Type.IType;
 public interface IValue {
     IType getType();
 
-    void setValue(IValue value) throws MyException;
+    //void setValue(IValue value) throws MyException;
 
     boolean equals(Object another);
     String toString();

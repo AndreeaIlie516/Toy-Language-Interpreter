@@ -2,6 +2,7 @@ package Model.Expression;
 
 import Model.ADT.IMyDictionary;
 import Exception.ExprException;
+import Model.ADT.IMyHeap;
 import Model.Type.IntType;
 import Model.Value.BoolValue;
 import Model.Value.IntValue;
@@ -19,9 +20,9 @@ public class RelationalExp implements IExp {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> symbolTable) throws ExprException {
-        IValue leftValue = left.evaluate(symbolTable);
-        IValue rightValue = right.evaluate(symbolTable);
+    public IValue evaluate(IMyDictionary<String, IValue> symbolTable, IMyHeap<IValue> heap) throws ExprException {
+        IValue leftValue = left.evaluate(symbolTable, heap);
+        IValue rightValue = right.evaluate(symbolTable, heap);
 
         if (leftValue.getType().equals(new IntType())) {
             if (rightValue.getType().equals(new IntType())) {
