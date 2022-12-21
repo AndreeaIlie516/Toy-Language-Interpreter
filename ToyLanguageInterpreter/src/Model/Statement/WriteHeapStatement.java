@@ -49,7 +49,7 @@ public class WriteHeapStatement implements IStatement {
         }
         state.setSymbolTable(symbolTable);
         state.setHeap(heap);
-        return state;
+        return null;
     }
 
     @Override

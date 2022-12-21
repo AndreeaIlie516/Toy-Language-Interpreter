@@ -22,7 +22,7 @@ public class CompStatement implements IStatement {
         stack.push(second);
         stack.push(first);
         state.setExecutionStack(stack);
-        return state;
+        return null;
     }
 
     @Override

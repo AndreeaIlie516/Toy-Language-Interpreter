@@ -34,7 +34,7 @@ public class VarDeclStatement implements IStatement {
         table.add(this.ID, this.type.getDefaultValue());
         state.setExecutionStack(stack);
         state.setSymbolTable(table);
-        return state;
+        return null;
     }
 
     @Override

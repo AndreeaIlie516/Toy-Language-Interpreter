@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Exception.MyException;
 import Exception.ADTException;
+import Exception.InterpreterException;
 import Repository.IRepository;
 import Repository.Repository;
 
@@ -24,10 +25,11 @@ public class AppView {
         this.controller = new Controller(repository);
         printMenu();
         try {
-            controller.example();
             controller.executeAllSteps();
         } catch (MyException | IOException | ADTException e) {
             System.out.println(e.getMessage());
+        } catch (InterpreterException e) {
+            throw new RuntimeException(e);
         }
     }
 }

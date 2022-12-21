@@ -15,54 +15,60 @@ import Model.Type.IntType;
 import Model.Type.StringType;
 import Model.Value.*;
 import Repository.IRepository;
+import Exception.InterpreterException;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Controller implements IController{
     private final IRepository repository;
 
+    private Boolean displayAll;
+
+    private ExecutorService executor;
+
     public Controller(IRepository repo) {
         this.repository = repo;
     }
 
+    public void setDisplayAll(Boolean displayAll) {
+        this.displayAll = displayAll;
+    }
+    /*
     public ProgramState executeOneStep(ProgramState state) throws MyException, ADTException, StmtException, ExprException {
+
         IMyStack<IStatement> stack = state.getExecutionStack();
         if (stack.isEmpty()) {
             throw new MyException("Stack is empty");
         }
         IStatement currentStmt = stack.pop();
         return currentStmt.execute(state);
+
     }
+    */
+    public void executeAllSteps() throws MyException, IOException, ADTException, InterpreterException {
+        executor = Executors.newFixedThreadPool(2);
 
-    public void executeAllSteps() throws MyException, IOException, ADTException {
-        ProgramState prg = repository.getCurrentProgram();
-        repository.printPrgState(prg);
-        IMyHeap<IValue> heap = new MyHeap<>();
-        //System.out.println(prg);
+        List<ProgramState> programStateList = removeCompletedPrograms(repository.getProgramList());
 
-        while (!prg.getExecutionStack().isEmpty()) {
-            try {
-                executeOneStep(prg);
-                //System.out.println(prg);
-                repository.printPrgState(prg);
+        while (programStateList.size() > 0) {
+            conservativeGarbageCollector(programStateList);
+            oneStepForAllPrograms(programStateList);
 
-                heap.setContent(safeGarbageCollector(
-                        getAddrFromSymTable(
-                                prg.getSymbolTable().getContent().values(),
-                                prg.getHeap().getContent().values()
-                        ),
-                        prg.getHeap().getContent()
-                ));
-                prg.setHeap(heap);
-            } catch (MyException | ADTException | StmtException | ExprException exception) {
-                throw new MyException(exception.getMessage());
-            }
+            programStateList = removeCompletedPrograms(repository.getProgramList());
         }
+
+        executor.shutdownNow();
+        repository.setProgramList(programStateList);
     }
 
     Map<Integer, IValue> unsafeGarbageCollector(List<Integer> addresses, Map<Integer, IValue> heap) {
@@ -77,6 +83,62 @@ public class Controller implements IController{
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public void oneStepForAllPrograms(List<ProgramState> states) throws InterpreterException {
+        states.forEach(p -> {
+            try {
+
+                repository.logProgramStateExecution(p);
+            } catch (MyException | IOException exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        List<Callable<ProgramState>> callList = states.stream()
+                .map((ProgramState p) -> (Callable<ProgramState>) (p::oneStep))
+                .collect(Collectors.toList());
+        try {
+            List<ProgramState> newProgramList = executor.invokeAll(callList).stream()
+                    .map(future -> {
+                        try {
+                            return future.get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        return null;
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            states.addAll(newProgramList);
+        } catch (InterruptedException e) {
+            throw new InterpreterException(e.getMessage());
+        }
+
+        states.forEach(prg -> {
+            try {
+                repository.logProgramStateExecution(prg);
+            } catch (MyException | IOException exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        repository.setProgramList(states);
+    }
+    private void conservativeGarbageCollector(List<ProgramState> programStateList) {
+        var heap = Objects.requireNonNull(programStateList.stream()
+                .map(p -> getAddrFromSymTable(
+                        p.getSymbolTable().getContent().values(),
+                        p.getHeap().getContent().values()))
+                .map(Collection::stream)
+                .reduce(Stream::concat).orElse(null)).collect(Collectors.toList());
+        programStateList.forEach(programState -> {
+            programState.getHeap().setContent(
+                    unsafeGarbageCollector(
+                            heap,
+                            programStateList.get(0).getHeap().getContent()
+                    ));
+        });
+    }
+
     List<Integer> getAddrFromSymTable(Collection<IValue> symTableValues)
     {
         return symTableValues.stream()
@@ -87,6 +149,7 @@ public class Controller implements IController{
                 })
                 .collect(Collectors.toList());
     }
+
     List<Integer> getAddrFromSymTable(Collection<IValue> symTableValues, Collection<IValue> heap) {
         return Stream.concat(
                 heap.stream()
@@ -104,65 +167,13 @@ public class Controller implements IController{
         ).collect(Collectors.toList());
     }
 
-    public void example() {
-        IMyStack<IStatement> stack = new MyStack<>();
-        IStatement example_1 = new CompStatement(
-                new VarDeclStatement("x", new IntType()),
-                new CompStatement(
-                        new AssignStatement("x", new ValueExp(new IntValue(17))),
-                        new PrintStatement(new VariableExp("x"))
-                )
-        );
-
-        IStatement example_2 = new CompStatement(
-                new VarDeclStatement("x" , new IntType()),
-                new CompStatement(new AssignStatement("x", new ArithExp(
-                                        new ValueExp(new IntValue(3)),
-                                        new ArithExp(
-                                                new ValueExp(new IntValue(5)), new ValueExp(new IntValue(7)), '*'
-                                        ),
-                                        '+'
-                                    )
-                             ),
-                        new PrintStatement(new VariableExp("x"))
-                )
-        );
-
-        IStatement example_3 = new CompStatement(
-                new VarDeclStatement("s" , new BoolType()),
-                new CompStatement(new VarDeclStatement("x", new IntType()),
-                        new CompStatement(
-                                new AssignStatement("s", new ValueExp(new BoolValue(true))),
-                                new CompStatement(
-                                    new IfStatement(
-                                            new VariableExp("s"),
-                                            new AssignStatement("x", new ValueExp(new IntValue(20))),
-                                            new AssignStatement("x", new ValueExp(new IntValue(2)))
-                                    ),
-                                    new PrintStatement(new VariableExp("x"))
-                                )
-                        )
-                )
-        );
-
-        IStatement example_4 = new CompStatement(
-                new VarDeclStatement("fileName", new StringType()),
-                new CompStatement(new AssignStatement("fileName", new ValueExp(new StringValue("test.txt"))),
-                        new CompStatement(new OpenRFileStatement(new VariableExp("fileName")),
-                                new CompStatement(new VarDeclStatement("x", new IntType()),
-                                        new CompStatement(new ReadFileStatement(new VariableExp("fileName"), "x"),
-                                                new CompStatement(new PrintStatement(new VariableExp("x")),
-                                                        new CompStatement(new ReadFileStatement(new VariableExp("fileName"), "x"),
-                                                                new CompStatement(new PrintStatement(new VariableExp("x")),
-                                                                        new CloseRFileStatement(new VariableExp("fileName"))))))))));
-
-        stack.push(example_4);
-        stack.push(example_3);
-        stack.push(example_2);
-        stack.push(example_1);
-        ProgramState state = new ProgramState(stack, new MyDictionary<String, IValue>(), new MyList<IValue>());
-        System.out.println(state);
-        repository.addState(state);
+    List<ProgramState> removeCompletedPrograms(List<ProgramState> inProgramList) {
+        return inProgramList.stream()
+                .filter(ProgramState::isNotCompleted)
+                .collect(Collectors.toList());
     }
 
+    public String displayState(ProgramState state) {
+        return state.toString();
+    }
 }

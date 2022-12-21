@@ -33,7 +33,7 @@ public class WhileStatement implements IStatement {
         }
 
         state.setExecutionStack(stack);
-        return state;
+        return null;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class AllocateHeapStatement implements IStatement {
         state.setSymbolTable(symbolTable);
         state.setHeap(heap);
         state.setExecutionStack(stack);
-        return state;
+        return null;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class PrintStatement implements IStatement {
         output.add(value);
         state.setExecutionStack(stack);
         state.setOutput(output);
-        return state;
+        return null;
     }
 }
 

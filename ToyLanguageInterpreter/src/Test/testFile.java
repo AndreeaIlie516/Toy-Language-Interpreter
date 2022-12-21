@@ -18,6 +18,7 @@ import Model.Value.IValue;
 import java.io.BufferedReader;
 
 public class testFile {
+    /*
     public void testFileOperation() {
         IMyStack<IStatement> stack=new MyStack<>();
         IMyDictionary<String, IValue> table=new MyDictionary<>();
@@ -76,4 +77,6 @@ public class testFile {
 
     }
 
+
+     */
 }

@@ -27,10 +27,7 @@ public class Main {
         IMyStack<IStatement> stack4 = new MyStack<>();
         IMyStack<IStatement> stack5 = new MyStack<>();
         IMyStack<IStatement> stack6 = new MyStack<>();
-
-        testFile test = new testFile();
-        test.testFileOperation();
-        System.out.println("Tests passed");
+        IMyStack<IStatement> stack10 = new MyStack<>();
 
         IStatement example_1 = new CompStatement(
                 new VarDeclStatement("x", new IntType()),
@@ -40,7 +37,7 @@ public class Main {
                 )
         );
 
-        ProgramState prg1 = new ProgramState(stack1, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), example_1);
+        ProgramState prg1 = new ProgramState(stack1, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_1);
         IRepository repo1 = new Repository(prg1, "log1.txt");
         Controller ctr1 = new Controller(repo1);
 
@@ -57,7 +54,7 @@ public class Main {
                         new PrintStatement(new VariableExp("x"))
                 )
         );
-        ProgramState prg2= new ProgramState(stack2, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), example_2);
+        ProgramState prg2= new ProgramState(stack2, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_2);
         IRepository repo2 = new Repository(prg2, "log2.txt");
         Controller ctr2 = new Controller(repo2);
 
@@ -67,7 +64,7 @@ public class Main {
                                 new AssignStatement("v", new ValueExp(new IntValue(2))), new AssignStatement("v", new ValueExp(new IntValue(3)))),
                                 new PrintStatement(new VariableExp("v"))))));
 
-        ProgramState prg3 = new ProgramState(stack3, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), example_3);
+        ProgramState prg3 = new ProgramState(stack3, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_3);
         IRepository repo3 = new Repository(prg3, "log3.txt");
         Controller ctr3 = new Controller(repo3);
 
@@ -82,7 +79,7 @@ public class Main {
                                                                         new CompStatement(new PrintStatement(new VariableExp("x")),
                                                                                 new CloseRFileStatement(new VariableExp("fileName"))))))))));
 
-        ProgramState prg4 = new ProgramState(stack4, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), example_4);
+        ProgramState prg4 = new ProgramState(stack4, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_4);
         IRepository repo4 = new Repository(prg4, "log4.txt");
         Controller ctr4 = new Controller(repo4);
 
@@ -110,6 +107,22 @@ public class Main {
         IRepository repo6 = new Repository(prg6, "log6.txt");
         Controller ctr6 = new Controller(repo6);
 
+        IStatement example_10 = new CompStatement(new VarDeclStatement("v", new IntType()),
+                    new CompStatement(new VarDeclStatement("a", new ReferenceType(new IntType())),
+                            new CompStatement(new AssignStatement("v", new ValueExp(new IntValue(10))),
+                                    new CompStatement(new AllocateHeapStatement("a", new ValueExp(new IntValue(22))),
+                                            new CompStatement(new ForkStatement(
+                                                    new CompStatement(new WriteHeapStatement("a", new ValueExp(new IntValue(30))),
+                                                            new CompStatement(new AssignStatement("v", new ValueExp(new IntValue(32))),
+                                                                    new CompStatement(new PrintStatement(new VariableExp("v")),
+                                                                            new PrintStatement(new ReadHeapExpression(new VariableExp("a"))))))),
+                                                    new CompStatement(new PrintStatement(new VariableExp("v")),
+                                                            new PrintStatement(new ReadHeapExpression(new VariableExp("a")))))))));
+
+        ProgramState prg10 = new ProgramState(stack10, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_10);
+        IRepository repo10 = new Repository(prg10, "log10.txt");
+        Controller ctr10 = new Controller(repo10);
+
         TextMenu menu = new TextMenu();
 
         repo1.addState(prg1);
@@ -118,6 +131,7 @@ public class Main {
         repo4.addState(prg4);
         repo5.addState(prg5);
         repo6.addState(prg6);
+        repo10.addState(prg10);
 
 
         menu.addCommand(new ExitCommand("0", "exit"));
@@ -127,6 +141,7 @@ public class Main {
         menu.addCommand(new RunExample("4",example_4.toString(),ctr4));
         menu.addCommand(new RunExample("5",example_5.toString(),ctr5));
         menu.addCommand(new RunExample("6",example_6.toString(),ctr6));
+        menu.addCommand(new RunExample("10",example_10.toString(),ctr10));
         menu.show();
     }
 }

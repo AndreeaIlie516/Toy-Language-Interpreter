@@ -40,7 +40,7 @@ public class AssignStatement implements IStatement {
             throw new StmtException("Variable " + this.ID + " is not defined or has a different type than the expression");
         }
         table.update(this.ID, updatedValue);
-        return state;
+        return null;
     }
 
     @Override
