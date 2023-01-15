@@ -1,0 +1,160 @@
+Program state
+ID: 1
+Execution Stack: (int a;(int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v))))) 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v)))) int a 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v)))) int a 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v)))) 
+Symbol Table: a-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int v;(a = 10;(if (a < v) then {v = 2} else {v = 3};print(v)))) 
+Symbol Table: a-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (a = 10;(if (a < v) then {v = 2} else {v = 3};print(v))) int v 
+Symbol Table: a-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (a = 10;(if (a < v) then {v = 2} else {v = 3};print(v))) int v 
+Symbol Table: a-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (a = 10;(if (a < v) then {v = 2} else {v = 3};print(v))) 
+Symbol Table: a-0 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (a = 10;(if (a < v) then {v = 2} else {v = 3};print(v))) 
+Symbol Table: a-0 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (if (a < v) then {v = 2} else {v = 3};print(v)) a = 10 
+Symbol Table: a-0 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (if (a < v) then {v = 2} else {v = 3};print(v)) a = 10 
+Symbol Table: a-0 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (if (a < v) then {v = 2} else {v = 3};print(v)) 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (if (a < v) then {v = 2} else {v = 3};print(v)) 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) if (a < v) then {v = 2} else {v = 3} 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) if (a < v) then {v = 2} else {v = 3} 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) v = 3 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) v = 3 
+Symbol Table: a-10 v-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) 
+Symbol Table: a-10 v-3 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: print(v) 
+Symbol Table: a-10 v-3 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: 
+Symbol Table: a-10 v-3 
+Heap: 
+Output Console: 3 
+File Table: 
+

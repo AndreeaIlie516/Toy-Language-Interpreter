@@ -1,7 +1,7 @@
 package Controller;
 
 import Exception.ADTException;
-import Exception.ExprException;
+import Exception.TypeException;
 import Exception.MyException;
 import Model.ADT.*;
 import Model.State.ProgramState;
@@ -175,5 +175,9 @@ public class Controller implements IController{
 
     public String displayState(ProgramState state) {
         return state.toString();
+    }
+
+    public void typeCheck() throws TypeException, ADTException {
+        repository.getProgramList().get(0).typeCheck();
     }
 }

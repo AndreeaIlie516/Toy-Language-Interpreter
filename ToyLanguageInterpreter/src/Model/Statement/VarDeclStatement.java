@@ -1,6 +1,7 @@
 package Model.Statement;
 
 import Exception.ADTException;
+import Exception.TypeException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyStack;
 import Model.State.ProgramState;
@@ -45,5 +46,11 @@ public class VarDeclStatement implements IStatement {
     @Override
     public IStatement deepCopy() {
         return new VarDeclStatement(ID, type);
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException, ADTException {
+        table.add(ID, type);
+        return table;
     }
 }

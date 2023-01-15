@@ -6,7 +6,9 @@ import Model.ADT.IMyList;
 import Model.ADT.IMyStack;
 import Model.State.ProgramState;
 import Exception.StmtException;
+import Exception.TypeException;
 import Model.Expression.IExp;
+import Model.Type.IType;
 import Model.Value.IValue;
 
 public class PrintStatement implements IStatement {
@@ -37,6 +39,12 @@ public class PrintStatement implements IStatement {
         state.setExecutionStack(stack);
         state.setOutput(output);
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        expression.typeCheck(table);
+        return table;
     }
 }
 

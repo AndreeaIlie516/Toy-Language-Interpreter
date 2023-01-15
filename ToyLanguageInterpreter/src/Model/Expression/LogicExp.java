@@ -1,9 +1,13 @@
 package Model.Expression;
 
 import Exception.ExprException;
+import Exception.InterpreterException;
+import Exception.TypeException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
 import Model.Type.BoolType;
+import Model.Type.IType;
+import Model.Type.IntType;
 import Model.Value.BoolValue;
 import Model.Value.IValue;
 
@@ -48,5 +52,19 @@ public class LogicExp implements IExp {
     @Override
     public IExp deepCopy() {
         return new LogicExp(leftExpression.deepCopy(), rightExpression.deepCopy(), operator);
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType type1, type2;
+        type1 = leftExpression.typeCheck(table);
+        type2 = rightExpression.typeCheck(table);
+        if (type1.equals(new BoolType())) {
+            if (type2.equals(new BoolType())) {
+                return new IntType();
+            } else
+                throw new TypeException("Second operand is not a boolean");
+        } else
+            throw new TypeException("First operand is not a boolean.");
     }
 }

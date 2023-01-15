@@ -6,7 +6,9 @@ import Model.State.ProgramState;
 import Exception.ADTException;
 import Exception.ExprException;
 import Exception.StmtException;
+import Exception.TypeException;
 import Model.Expression.IExp;
+import Model.Type.IType;
 import Model.Type.IntType;
 import Model.Type.StringType;
 import Model.Value.IntValue;
@@ -84,5 +86,20 @@ public class ReadFileStatement implements IStatement {
     @Override
     public IStatement deepCopy() {
         return new ReadFileStatement(expression.deepCopy(), varName, fileName);
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType expressionType = expression.typeCheck(table);
+        IType variableType = table.lookup(varName);
+        if (expressionType.equals(new StringType())) {
+            if (variableType.equals(new IntType())) {
+                return table;
+            } else {
+                throw new TypeException("Variable not of type int");
+            }
+        } else {
+            throw new TypeException("Expression not of type string");
+        }
     }
 }

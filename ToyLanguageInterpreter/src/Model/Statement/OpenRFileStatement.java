@@ -6,7 +6,9 @@ import Model.State.ProgramState;
 import Exception.ADTException;
 import Exception.ExprException;
 import Exception.StmtException;
+import Exception.TypeException;
 import Model.Expression.IExp;
+import Model.Type.IType;
 import Model.Type.StringType;
 import Model.Value.StringValue;
 import Model.Value.IValue;
@@ -59,5 +61,15 @@ public class OpenRFileStatement implements IStatement {
     @Override
     public IStatement deepCopy() {
         return new OpenRFileStatement(expression.deepCopy());
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType type = expression.typeCheck(table);
+        if (type.equals(new StringType())) {
+            return table;
+        } else {
+            throw new TypeException("Expression not of type string");
+        }
     }
 }

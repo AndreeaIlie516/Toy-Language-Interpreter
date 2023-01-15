@@ -2,9 +2,11 @@ package Model.Expression;
 
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
+import Model.Type.IType;
+import Model.Type.ReferenceType;
 import Model.Value.IValue;
 import Exception.ExprException;
-import Exception.MyException;
+import Exception.TypeException;
 import Model.Value.ReferenceValue;
 
 public class ReadHeapExpression implements IExp {
@@ -38,5 +40,15 @@ public class ReadHeapExpression implements IExp {
     @Override
     public String toString() {
         return "readHeap(" + expression.toString() + ")";
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType type = expression.typeCheck(table);
+        if (type instanceof ReferenceType) {
+            ReferenceType referenceType = (ReferenceType) type;
+            return referenceType.getInner();
+        } else
+            throw new TypeException("Expression not of reference type.");
     }
 }

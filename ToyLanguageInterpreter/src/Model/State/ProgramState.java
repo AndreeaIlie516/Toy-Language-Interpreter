@@ -9,6 +9,7 @@ import Exception.ExecutionException;
 import Exception.ExprException;
 import Exception.MyException;
 import Exception.StmtException;
+import Exception.TypeException;
 
 import java.io.BufferedReader;
 
@@ -126,6 +127,10 @@ public class ProgramState {
         str.append("Output Console: ").append(output).append("\n");
         str.append("File Table: ").append(fileTable).append("\n");
         return str.toString();
+    }
+
+    public void typeCheck() throws TypeException, ADTException {
+        originalProgram.typeCheck(new MyDictionary<>());
     }
 
 }

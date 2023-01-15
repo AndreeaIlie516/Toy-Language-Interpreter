@@ -1,0 +1,272 @@
+Program state
+ID: 1
+Execution Stack: (string fileName;(fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))))))) 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))))) string fileName 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))))) string fileName 
+Symbol Table: 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))))) 
+Symbol Table: fileName- 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (fileName = test.txt;(Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))))) 
+Symbol Table: fileName- 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))))) fileName = test.txt 
+Symbol Table: fileName- 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))))) fileName = test.txt 
+Symbol Table: fileName- 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))))) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (Open(fileName);(int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))))) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))) Open(fileName) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))) Open(fileName) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (int x;(readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName)))))) 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))) int x 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))) int x 
+Symbol Table: fileName-test.txt 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);(readFile(fileName, x);(print(x);close(fileName))))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);(readFile(fileName, x);(print(x);close(fileName)))) readFile(fileName, x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);(readFile(fileName, x);(print(x);close(fileName)))) readFile(fileName, x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);(readFile(fileName, x);(print(x);close(fileName)))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);(readFile(fileName, x);(print(x);close(fileName)))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);close(fileName))) print(x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);close(fileName))) print(x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);close(fileName))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (readFile(fileName, x);(print(x);close(fileName))) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);close(fileName)) readFile(fileName, x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);close(fileName)) readFile(fileName, x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);close(fileName)) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: (print(x);close(fileName)) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: close(fileName) print(x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: close(fileName) print(x) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: close(fileName) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: close(fileName) 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 0 
+File Table: 
+
+Program state
+ID: 1
+Execution Stack: 
+Symbol Table: fileName-test.txt x-0 
+Heap: 
+Output Console: 0 0 
+File Table: 
+

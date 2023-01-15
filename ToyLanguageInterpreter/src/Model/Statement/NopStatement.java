@@ -1,7 +1,10 @@
 package Model.Statement;
 
+import Model.ADT.IMyDictionary;
 import Model.State.ProgramState;
 import Exception.StmtException;
+import Exception.TypeException;
+import Model.Type.IType;
 
 public class NopStatement implements IStatement {
     @Override
@@ -17,5 +20,10 @@ public class NopStatement implements IStatement {
     @Override
     public IStatement deepCopy() {
         return new NopStatement();
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        return table;
     }
 }

@@ -1,8 +1,10 @@
 package Model.Expression;
 
 import Exception.ExprException;
+import Exception.TypeException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
+import Model.Type.IType;
 import Model.Type.IntType;
 import Model.Value.IntValue;
 import Model.Value.IValue;
@@ -80,5 +82,19 @@ public class ArithExp implements IExp {
             case 4 -> '/';
             default -> ' ';
         });
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType type1, type2;
+        type1 = expression1.typeCheck(table);
+        type2 = expression2.typeCheck(table);
+        if (type1.equals(new IntType())) {
+            if (type2.equals(new IntType())) {
+                return new IntType();
+            } else
+                throw new TypeException("Second operand is not an integer.");
+        } else
+            throw new TypeException("First operand is not an integer.");
     }
 }

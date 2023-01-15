@@ -1,11 +1,13 @@
 package Model.Statement;
 
 import Exception.ExprException;
+import Exception.TypeException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
 import Model.State.ProgramState;
 import Exception.StmtException;
 import Model.Expression.IExp;
+import Model.Type.IType;
 import Model.Value.IValue;
 
 public class AssignStatement implements IStatement {
@@ -46,6 +48,16 @@ public class AssignStatement implements IStatement {
     @Override
     public IStatement deepCopy() {
         return new AssignStatement(ID, expression.deepCopy());
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType typeVar = table.lookup(ID);
+        IType typeExpr = expression.typeCheck(table);
+        if (typeVar.equals(typeExpr))
+            return table;
+        else
+            throw new TypeException("Not the same type on assignment.");
     }
 
 }

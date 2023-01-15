@@ -2,7 +2,10 @@ package Model.Expression;
 
 import Model.ADT.IMyDictionary;
 import Exception.ExprException;
+import Exception.TypeException;
 import Model.ADT.IMyHeap;
+import Model.Type.BoolType;
+import Model.Type.IType;
 import Model.Type.IntType;
 import Model.Value.BoolValue;
 import Model.Value.IntValue;
@@ -64,5 +67,19 @@ public class RelationalExp implements IExp {
     @Override
     public IExp deepCopy() {
         return new RelationalExp(left.deepCopy(), right.deepCopy(), operator);
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType type1, type2;
+        type1 = left.typeCheck(table);
+        type2 = right.typeCheck(table);
+        if (type1.equals(new IntType())) {
+            if (type2.equals(new IntType())) {
+                return new BoolType();
+            } else
+                throw new TypeException("Second operand is not an integer.");
+        } else
+            throw new TypeException("First operand is not an integer.");
     }
 }

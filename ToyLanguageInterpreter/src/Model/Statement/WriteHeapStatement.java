@@ -4,10 +4,13 @@ import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
 import Model.Expression.IExp;
 import Model.State.ProgramState;
+import Model.Type.IType;
+import Model.Type.ReferenceType;
 import Model.Value.IValue;
 import Exception.ADTException;
 import Exception.MyException;
 import Exception.ExprException;
+import Exception.TypeException;
 import Model.Value.ReferenceValue;
 
 public class WriteHeapStatement implements IStatement {
@@ -61,5 +64,21 @@ public class WriteHeapStatement implements IStatement {
     @Override
     public String toString() {
         return "writeHeap(" + variableName + ',' + expression.toString() + ")";
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType expressionType = expression.typeCheck(table);
+        IType variableType = table.lookup(variableName);
+        if (variableType instanceof ReferenceType) {
+            ReferenceType referenceType = (ReferenceType) variableType;
+            if (expressionType.equals(referenceType.getInner())) {
+                return table;
+            } else {
+                throw new TypeException("Not the same type on heap modification");
+            }
+        } else {
+            throw new TypeException("Variable not of reference type");
+        }
     }
 }

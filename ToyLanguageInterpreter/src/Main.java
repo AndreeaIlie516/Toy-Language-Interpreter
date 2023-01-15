@@ -1,6 +1,8 @@
 import Model.ADT.*;
 import Model.Expression.*;
+import Model.Type.BoolType;
 import Model.Type.ReferenceType;
+import Model.Value.BoolValue;
 import Test.testFile;
 import Controller.Controller;
 import Model.State.ProgramState;
@@ -28,6 +30,7 @@ public class Main {
         IMyStack<IStatement> stack5 = new MyStack<>();
         IMyStack<IStatement> stack6 = new MyStack<>();
         IMyStack<IStatement> stack10 = new MyStack<>();
+        IMyStack<IStatement> stack11 = new MyStack<>();
 
         IStatement example_1 = new CompStatement(
                 new VarDeclStatement("x", new IntType()),
@@ -123,6 +126,30 @@ public class Main {
         IRepository repo10 = new Repository(prg10, "log10.txt");
         Controller ctr10 = new Controller(repo10);
 
+        IStatement example_11 = new CompStatement(
+                new VarDeclStatement(
+                        "v",
+                        new IntType()
+                ),
+                new CompStatement(
+                        new AssignStatement(
+                                "v",
+                                new ValueExp(
+                                        new BoolValue(true)
+                                )
+                        ),
+                        new PrintStatement(
+                                new VariableExp(
+                                        "v"
+                                )
+                        )
+                )
+        );
+
+        ProgramState prg11 = new ProgramState(stack11, new MyDictionary<String, IValue>(),  new MyList<IValue>(), new MyDictionary<StringValue, BufferedReader>(), new MyHeap<>(), example_11);
+        IRepository repo11 = new Repository(prg11, "log11.txt");
+        Controller ctr11 = new Controller(repo11);
+
         TextMenu menu = new TextMenu();
 
         repo1.addState(prg1);
@@ -132,6 +159,7 @@ public class Main {
         repo5.addState(prg5);
         repo6.addState(prg6);
         repo10.addState(prg10);
+        repo11.addState(prg11);
 
 
         menu.addCommand(new ExitCommand("0", "exit"));
@@ -142,6 +170,7 @@ public class Main {
         menu.addCommand(new RunExample("5",example_5.toString(),ctr5));
         menu.addCommand(new RunExample("6",example_6.toString(),ctr6));
         menu.addCommand(new RunExample("10",example_10.toString(),ctr10));
+        menu.addCommand(new RunExample("11",example_11.toString(),ctr11));
         menu.show();
     }
 }

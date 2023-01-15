@@ -1,8 +1,10 @@
 package Model.Expression;
 
 import Exception.ExprException;
+import Exception.TypeException;
 import Model.ADT.IMyDictionary;
 import Model.ADT.IMyHeap;
+import Model.Type.IType;
 import Model.Value.IValue;
 
 public class VariableExp implements IExp {
@@ -26,6 +28,11 @@ public class VariableExp implements IExp {
     @Override
     public IExp deepCopy() {
         return new VariableExp(ID);
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> table) throws TypeException{
+        return table.lookup(ID);
     }
 }
 

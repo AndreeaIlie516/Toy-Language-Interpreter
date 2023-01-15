@@ -1,7 +1,0 @@
-Program state
-Execution Stack:  
-Symbol Table:  
-Heap:  
-Output Console:  
-File Table:  
-

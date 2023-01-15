@@ -5,8 +5,10 @@ import Model.ADT.IMyHeap;
 import Model.ADT.IMyStack;
 import Model.Expression.IExp;
 import Model.State.ProgramState;
+import Model.Type.IType;
 import Model.Value.IValue;
 import Exception.ExprException;
+import Exception.TypeException;
 import Exception.StmtException;
 import Model.Type.ReferenceType;
 import Model.Value.ReferenceValue;
@@ -60,4 +62,14 @@ public class AllocateHeapStatement implements IStatement {
         return "new(" + variableName + ", " + expression.toString() + ")";
     }
 
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> table) throws TypeException {
+        IType variableType = table.lookup(variableName);
+        IType expressionType = expression.typeCheck(table);
+        if (variableType.equals(new ReferenceType(expressionType))) {
+            return table;
+        } else {
+            throw new TypeException("Different types on heap allocation");
+        }
+    }
 }
