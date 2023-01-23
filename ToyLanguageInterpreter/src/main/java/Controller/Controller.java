@@ -5,18 +5,14 @@ import Exception.TypeException;
 import Exception.MyException;
 import Model.ADT.*;
 import Model.State.ProgramState;
-import Exception.StmtException;
-import Model.Expression.ArithExp;
-import Model.Expression.ValueExp;
-import Model.Expression.VariableExp;
-import Model.Statement.*;
-import Model.Type.BoolType;
-import Model.Type.IntType;
-import Model.Type.StringType;
-import Model.Value.*;
+import Model.Statement.IStatement;
+import Model.Value.ReferenceValue;
+import Model.Value.StringValue;
 import Repository.IRepository;
 import Exception.InterpreterException;
+import Model.Value.IValue;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -123,7 +119,7 @@ public class Controller implements IController{
 
         repository.setProgramList(states);
     }
-    private void conservativeGarbageCollector(List<ProgramState> programStateList) {
+    public void conservativeGarbageCollector(List<ProgramState> programStateList) {
         var heap = Objects.requireNonNull(programStateList.stream()
                 .map(p -> getAddrFromSymTable(
                         p.getSymbolTable().getContent().values(),
@@ -177,7 +173,81 @@ public class Controller implements IController{
         return state.toString();
     }
 
+    public void addState(ProgramState state) {
+        repository.addState(state);
+    }
+
+    public IMyList<IValue> getOutput() {
+        if (repository.getProgramList().size() == 0) {
+            return new MyList<>();
+        }
+        return repository.getProgramList().get(0).getOutput();
+    }
+
     public void typeCheck() throws TypeException, ADTException {
         repository.getProgramList().get(0).typeCheck();
     }
+
+    public IMyDictionary<String, IValue> getSymbolTable(int process) {
+        List<ProgramState> states = repository.getProgramList().stream().filter((el) -> el.getStateID() == process).collect(Collectors.toList());
+        if (states.size() == 0) {
+            return new MyDictionary<>();
+        } else {
+            return states.get(0).getSymbolTable();
+        }
+    }
+
+    public IMyHeap<IValue> getHeapTable() {
+        if (repository.getProgramList().size() == 0) {
+            return new MyHeap<>();
+        }
+        return repository.getProgramList().get(0).getHeap();
+    }
+
+    public IMyDictionary<StringValue, BufferedReader> getFileTable() {
+        if (repository.getProgramList().size() == 0) {
+            return new MyDictionary<>();
+        }
+        return repository.getProgramList().get(0).getFileTable();
+    }
+    public IMyLatchTable<Integer> getLatchTable() {
+        if (repository.getProgramList().size() == 0) {
+            return new MyLatchTable<>();
+        }
+        return repository.getProgramList().get(0).getLatchTable();
+    }
+
+    public IMyStack<IStatement> getExecutionStack(int process) {
+        List<ProgramState> states = repository
+                .getProgramList()
+                .stream()
+                .filter((el) -> el.getStateID() == process)
+                .collect(Collectors.toList());
+        if (states.size() == 0) {
+            return new MyStack<>();
+        } else {
+            return states.get(0).getExecutionStack();
+        }
+    }
+
+    public Integer numberOfProgramStates() {
+        return repository.getProgramList().size();
+    }
+
+    public void openExecutor() {
+        executor = Executors.newFixedThreadPool(2);
+    }
+
+    public void closeExecutor() {
+        executor.shutdownNow();
+    }
+
+    public void setFinalStateList(List<ProgramState> programStateList) {
+        repository.setProgramList(programStateList);
+    }
+
+    public List<ProgramState> getStateList() {
+        return removeCompletedPrograms(repository.getProgramList());
+    }
+
 }

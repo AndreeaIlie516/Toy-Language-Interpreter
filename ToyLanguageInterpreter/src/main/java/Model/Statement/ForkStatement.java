@@ -28,7 +28,7 @@ public class ForkStatement implements IStatement{
         }
         IMyStack<IStatement> stack = new MyStack<>();
         stack.push(statement);
-        ProgramState newProgram = new ProgramState(stack, newSymbolTable, state.getOutput(), state.getFileTable(), state.getHeap());
+        ProgramState newProgram = new ProgramState(stack, newSymbolTable, state.getOutput(), state.getFileTable(), state.getHeap(), state.getLatchTable());
         newProgram.setID();
         return newProgram;
     }

@@ -2,6 +2,8 @@ package Model.ADT;
 
 import Exception.ADTException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class MyStack<T> implements IMyStack<T> {
@@ -50,5 +52,10 @@ public class MyStack<T> implements IMyStack<T> {
             string.append(elem).append(" ");
         }
         return string.toString();
+    }
+
+    @Override
+    public List<T> getContent() {
+        return new ArrayList<>(myStack);
     }
 }

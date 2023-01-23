@@ -24,25 +24,29 @@ public class ProgramState {
     private static Integer lastID = 1;
     private Integer stateID;
 
-    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable, IMyList<IValue> output, IMyDictionary<StringValue, BufferedReader> fileTable, IMyHeap<IValue> heap, IStatement originalProgram) {
+    IMyLatchTable<Integer> latchTable;
+
+    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable, IMyList<IValue> output, IMyDictionary<StringValue, BufferedReader> fileTable, IMyHeap<IValue> heap, IMyLatchTable<Integer> latchTable, IStatement originalProgram) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.output = output;
         this.fileTable = fileTable;
         this.originalProgram = originalProgram;
         this.heap = heap;
+        this.latchTable = latchTable;
         stateID = 1;
         if (originalProgram != null) {
             executionStack.push(originalProgram);
         }
     }
 
-    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable, IMyList<IValue> output, IMyDictionary<StringValue, BufferedReader> fileTable, IMyHeap<IValue> heap) {
+    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable, IMyList<IValue> output, IMyDictionary<StringValue, BufferedReader> fileTable, IMyHeap<IValue> heap, IMyLatchTable<Integer> latchTable) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.output = output;
         this.fileTable = fileTable;
         this.heap = heap;
+        this.latchTable = latchTable;
     }
 
     public IMyStack<IStatement> getExecutionStack() {
@@ -94,7 +98,7 @@ public class ProgramState {
         this.heap = heap;
     }
 
-    public int getStateID() {
+    public Integer getStateID() {
         return stateID;
     }
     public static synchronized int getNewProgramStateID() {
@@ -104,6 +108,14 @@ public class ProgramState {
     public synchronized void setID() {
         lastID++;
         stateID = lastID;
+    }
+
+    public IMyLatchTable<Integer> getLatchTable() {
+        return latchTable;
+    }
+
+    public void setLatchTable(IMyLatchTable<Integer> latchTable) {
+        this.latchTable = latchTable;
     }
 
     public ProgramState oneStep() throws ExecutionException, ADTException, ExprException, MyException, StmtException {
@@ -120,7 +132,7 @@ public class ProgramState {
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append("Program state\n");
-        str.append("ID: ").append(stateID).append("\n");
+        str.append("ID: ").append(stateID.toString()).append("\n");
         str.append("Execution Stack: ").append(executionStack).append("\n");
         str.append("Symbol Table: ").append(symbolTable).append("\n");
         str.append("Heap: ").append(heap).append("\n");

@@ -2,6 +2,8 @@ package Model.ADT;
 
 import Exception.ADTException;
 
+import java.util.List;
+
 public interface IMyStack<T> {
     T pop() throws ADTException;
 
@@ -12,4 +14,6 @@ public interface IMyStack<T> {
     int size();
 
     boolean isEmpty();
+
+    List<T> getContent();
 }
